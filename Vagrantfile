@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
 
   # Install OpenJDK 8 and 11 and set javac version to OpenJDK 8
   #config.vm.provision "shell", inline: <<-SHELL
-    sudo bash -c 'echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list'
+    #sudo bash -c 'echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list'
   ##  sudo apt-get update
   #  yes | sudo apt-get install -y openjdk-8-jdk
  # SHELL
