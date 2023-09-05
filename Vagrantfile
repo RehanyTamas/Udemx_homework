@@ -1,77 +1,60 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "base"
+  config.vm.box = "debian/bullseye64"
+  config.vm.define "udemx_hazi"
+  config.vm.box_check_update = false
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  # Set root password to Alma1234
+  config.vm.provision "shell", inline: <<-SHELL
+    echo 'root:Alma1234' | chpasswd
+  SHELL
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # Create a my own user
+  config.vm.provision "shell", inline: <<-SHELL
+    useradd -m -s /bin/bash r_tamas
+    echo 'r_tamas:r_tamas_password' | chpasswd
+  SHELL
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  # Create user "udemx"
+   config.vm.provision "shell", inline: <<-SHELL
+   useradd -m -s /bin/bash udemx
+   echo 'udemx:udemx_password' | chpasswd
+  SHELL
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  # Install sudo,htop, and Midnight Commander
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y sudo htop mc
+  SHELL
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
+  # Install OpenJDK 8 and 11 and set javac version to OpenJDK 8
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo bash -c 'echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list'
+    sudo apt-get update
+    yes | sudo apt-get install -y openjdk-8-jdk
+  SHELL
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  # Install OpenJDK 11 
+  config.vm.provision "shell", inline: <<-SHELL
+    #sudo apt-get install -y openjdk-11-jdk
+  SHELL
 
-  # Disable the default share of the current code directory. Doing this
-  # provides improved isolation between the vagrant box and your host
-  # by making sure your Vagrantfile isn't accessable to the vagrant box.
-  # If you use this you may want to enable additional shared subfolders as
-  # shown above.
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
+  # Set javac version to OpenJDK 8
+  #config.vm.provision "shell", inline: <<-SHELL
+   # update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+  #  update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
+ # SHELL
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  # Install and configure fail2ban for SSH and Nginx
+  #config.vm.provision "shell", inline: <<-SHELL
+    #sudo apt-get install -y fail2ban
+   # sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+   # echo "[sshd]  enabled = true
+   # [nginx-http-auth]  enabled = true" >> /etc/fail2ban/jail.local
+   # sudo systemctl restart fail2ban
+ # SHELL
 end
+
