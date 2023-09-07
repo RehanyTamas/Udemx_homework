@@ -73,5 +73,9 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "./ansible_playbooks/download_required.yml"
   end
 
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "./ansible_playbooks/task2_containers.yml"
+  end
+
 end
 
