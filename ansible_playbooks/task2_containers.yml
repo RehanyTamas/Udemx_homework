@@ -1,0 +1,10 @@
+---
+- name: Task 2 containers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: copy Docker Compose files
+      copy:
+        src: ./docker_c_files/task2
+        dest: ./

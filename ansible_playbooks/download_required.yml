@@ -47,8 +47,8 @@
       apt:
         name: docker-ce
         state: present
-      register: result
-      until: "result is not failed"
+      register: docker_result
+      until: "docker_result is not failed"
       retries: 3
       delay: 5
 
@@ -60,4 +60,8 @@
       args:
         executable: /bin/bash
       when: ansible_os_family == 'Debian'
+      register: docker_c_result
+      until: "docker_c_result is not failed"
+      retries: 3
+      delay: 5
 
