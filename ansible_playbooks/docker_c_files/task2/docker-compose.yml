@@ -15,7 +15,7 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - ./index.html:/usr/share/nginx/index.html
+      - ./src:/usr/share/nginx/html
     ports:
       - "8080:80"
   
