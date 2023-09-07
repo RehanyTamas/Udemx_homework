@@ -27,34 +27,53 @@ Vagrant.configure("2") do |config|
   # Install sudo,htop, and Midnight Commander
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y sudo htop mc
+    DEBIAN_FRONTEND=noninteractive apt-get install -y sudo htop mc
   SHELL
+
+  #config.vm.provision "shell", inline: <<-SHELL
+  #  echo "LC_ALL=en_US.UTF-8" | sudo tee -a /etc/environment
+  #  echo "en_US.UTF-8 UTF-8" | sudo tee -a /etc/locale.gen
+  #  echo "LANG=en_US.UTF-8" | sudo tee -a /etc/locale.conf
+  #  sudo locale-gen en_US.UTF-8
+  #SHELL
 
   # Install OpenJDK 8 and 11 and set javac version to OpenJDK 8
   #config.vm.provision "shell", inline: <<-SHELL
-    #sudo bash -c 'echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list'
-  ##  sudo apt-get update
-  #  yes | sudo apt-get install -y openjdk-8-jdk
- # SHELL
+  #  sudo bash -c 'echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list'
+  #  sudo apt-get update
+  #  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-8-jdk #|| true
+  #SHELL
 
   # Install OpenJDK 11 
   #config.vm.provision "shell", inline: <<-SHELL
-    #sudo apt-get install -y openjdk-11-jdk
+  # sudo DEBIAN_FRONTEND=noninteractive apt-get install -y openjdk-11-jdk #|| true
   #SHELL
 
   # Set javac version to OpenJDK 8
   #config.vm.provision "shell", inline: <<-SHELL
-   # update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+  #  update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
   #  update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac
- # SHELL
+  #SHELL
 
   # Install and configure fail2ban for SSH and Nginx
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban #|| true
+  SHELL
+
+  #config.vm.provision "file", source: "./fail2ban_files/filter_configs", destination: "./"
+ 
   #config.vm.provision "shell", inline: <<-SHELL
-    #sudo apt-get install -y fail2ban
-   # sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-   # echo "[sshd]  enabled = true
-   # [nginx-http-auth]  enabled = true" >> /etc/fail2ban/jail.local
-   # sudo systemctl restart fail2ban
- # SHELL
+  #  mv -v ./filter_configs/*  /etc/fail2ban/filter.d
+  #SHELL
+
+  config.vm.provision "file", source: "./fail2ban_files/jail.local", destination: "./"
+  config.vm.provision "file", source: "./fail2ban_files/nginx-auth.conf", destination: "./"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    mv ./jail.local /etc/fail2ban/jail.local
+    mv ./nginx-auth.conf /etc/fail2ban/filter.d/nginx-auth.conf
+    sudo systemctl restart fail2ban
+  SHELL
+
 end
 
