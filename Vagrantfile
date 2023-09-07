@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
   SHELL
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "./ansible_playbooks/dgit_and_ocker.yml"
+    ansible.playbook = "./ansible_playbooks/git_and_docker.yml"
   end
 
 end
