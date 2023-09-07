@@ -27,7 +27,7 @@ Vagrant.configure("2") do |config|
   # Install sudo,htop, and Midnight Commander
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    DEBIAN_FRONTEND=noninteractive apt-get install -y sudo htop mc
+    DEBIAN_FRONTEND=noninteractive apt-get install -y sudo htop mc #gnupg
   SHELL
 
   #config.vm.provision "shell", inline: <<-SHELL
@@ -60,12 +60,6 @@ Vagrant.configure("2") do |config|
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban #|| true
   SHELL
 
-  #config.vm.provision "file", source: "./fail2ban_files/filter_configs", destination: "./"
- 
-  #config.vm.provision "shell", inline: <<-SHELL
-  #  mv -v ./filter_configs/*  /etc/fail2ban/filter.d
-  #SHELL
-
   config.vm.provision "file", source: "./fail2ban_files/jail.local", destination: "./"
   config.vm.provision "file", source: "./fail2ban_files/nginx-auth.conf", destination: "./"
 
@@ -74,6 +68,10 @@ Vagrant.configure("2") do |config|
     mv ./nginx-auth.conf /etc/fail2ban/filter.d/nginx-auth.conf
     sudo systemctl restart fail2ban
   SHELL
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "./ansible_playbooks/dgit_and_ocker.yml"
+  end
 
 end
 
