@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: udemx-db
+      MYSQL_USER: udemx
+      MYSQL_PASSWORD: udemx_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./index.html:/usr/share/nginx/index.html
+    ports:
+      - "8080:80"
+  
+  hello-world:
+    image: hello-world:latest
+
+volumes:
+  mariadb_data:
