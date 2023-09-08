@@ -53,10 +53,10 @@
       delay: 5
 
     - name: Check if Docker Compose is installed
-      command: docker-compose --version
       ignore_errors: yes
+      command: docker-compose --version
       register: docker_compose_version
-      changed_when: false  # Do not consider this a change
+      changed_when: false
 
     - name: Install Docker Compose
       shell: >
@@ -65,9 +65,8 @@
         chmod +x /usr/local/bin/docker-compose
       args:
         executable: /bin/bash
-      when: ansible_os_family == 'Debian'
       register: docker_c_result
       until: "docker_c_result is not failed"
       retries: 3
       delay: 5
-      when: docker_compose_version.rc != 0
+      when: docker_compose_version.failed
