@@ -6,3 +6,7 @@ TO-DO
  chrony error
  fail2ban
  ansible why no config git?
+ esaier way to check docker compose
+ should i copy shellscripts
+ why no docker compose
+  + auto run onboot up
