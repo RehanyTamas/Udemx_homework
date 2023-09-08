@@ -60,14 +60,11 @@ Vagrant.configure("2") do |config|
     sudo DEBIAN_FRONTEND=noninteractive apt-get install -y fail2ban #|| true
   SHELL
 
-  config.vm.provision "file", source: "./fail2ban_files/jail.local", destination: "./"
-  config.vm.provision "file", source: "./fail2ban_files/nginx-auth.conf", destination: "./"
-
-  config.vm.provision "shell", inline: <<-SHELL
-    mv ./jail.local /etc/fail2ban/jail.local
-    mv ./nginx-auth.conf /etc/fail2ban/filter.d/nginx-auth.conf
-    sudo systemctl restart fail2ban
-  SHELL
+  #config.vm.provision "shell", inline: <<-SHELL
+  #  cp /vagrant/fail2ban_files/jail.local /etc/fail2ban/jail.local
+  #  cp /vagrant/fail2ban_files/nginx-auth.conf /etc/fail2ban/filter.d/nginx-auth.conf
+  #  sudo systemctl restart fail2ban
+  #SHELL
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "./ansible_playbooks/download_required.yml"
@@ -76,6 +73,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "./ansible_playbooks/task2_containers.yml"
   end
+
 
 end
 
