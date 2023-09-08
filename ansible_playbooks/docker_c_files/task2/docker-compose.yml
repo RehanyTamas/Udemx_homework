@@ -15,6 +15,7 @@ services:
   
   nginx:
     image: nginx:latest
+    container_name: nginx_server
     volumes:
       - ./src:/usr/share/nginx/html
     ports:
