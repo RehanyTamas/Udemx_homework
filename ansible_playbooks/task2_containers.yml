@@ -4,7 +4,15 @@
   become: yes
 
   tasks:
-    - name: copy Docker Compose files
-      copy:
-        src: ./docker_c_files/task2
-        dest: ./
+    - name: Boot docker-compose file(s)
+      shell: >
+        docker-compose -f /vagrant/ansible_playbooks/docker_c_files/task2/docker-compose.yml up -d
+      args:
+        executable: /bin/bash
+
+    - name: Ensure cron job is scheduled
+      cron:
+        name: "Run My Shell Script"
+        minute: 0
+        hour: 2
+        job: "/bin/bash /vagrant/shell_scripts/full_report.sh" 
