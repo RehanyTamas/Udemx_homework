@@ -10,3 +10,6 @@ TO-DO
  should i copy shellscripts
  why no docker compose
   + auto run onboot up
+ htpasswd user same as terminal user?
+ user permission problems
+ jenkins module
