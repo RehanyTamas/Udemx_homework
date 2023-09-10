@@ -6,6 +6,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "debian/bullseye64"
   config.vm.define "udemx_hazi"
   config.vm.box_check_update = false
+  config.vm.network "forwarded_port", guest: 80, host: 9000
+  config.vm.network "forwarded_port", guest: 9001, host: 9001
 
   # Set root password to Alma1234
   config.vm.provision "shell", inline: <<-SHELL
@@ -71,7 +73,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "./ansible_playbooks/task2_containers.yml"
+    ansible.playbook = "./ansible_playbooks/docker_c_start.yml"
   end
 
 
