@@ -8,6 +8,9 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = false
   config.vm.network "forwarded_port", guest: 80, host: 9000
   config.vm.network "forwarded_port", guest: 9001, host: 9001
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 2048  # 2GB of memory
+  end
 
   # Set root password to Alma1234
   config.vm.provision "shell", inline: <<-SHELL
