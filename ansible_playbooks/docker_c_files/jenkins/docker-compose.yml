@@ -4,6 +4,8 @@ services:
     image: jenkins/jenkins:lts
     user: root
     privileged: true
+    #stdin_open: true
+    #tty: true
     ports:
     - "9001:8080"
     - "50000:50000"
