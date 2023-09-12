@@ -1,0 +1,17 @@
+---
+- name: Execute scripts and create Cron job
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Execute scripts
+      shell: /vagrant/shell_scripts/full_report.sh
+      args:
+        executable: /bin/bash
+    
+    - name: Ensure cron job is scheduled
+      cron:
+        name: "Run My Shell Script"
+        minute: 0
+        hour: 2
+        job: "/bin/bash /vagrant/shell_scripts/full_report.sh" 
