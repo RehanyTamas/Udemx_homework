@@ -1,18 +1,43 @@
-version: "2"
+version: "3"
 services:
   master:
-    image: jenkins/jenkins:lts
+    build: 
+      context: ./jenkins_master
+      dockerfile: Dockerfile
+    container_name: jenkins-master
     user: root
     privileged: true
-    #stdin_open: true
-    #tty: true
+    restart: always
     ports:
     - "9001:8080"
     - "50000:50000"
-
     volumes:
-    - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home
-    - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins-data:/var/jenkins_home
+      - ./jenkins_master/config:/var/jenkins_conf
+    environment:
+      - CASC_JENKINS_CONFIG=/var/jenkins_conf
+    networks:
+      - jenkins-net
+ # 
+ # jenkins-worker:
+ #   image: jenkins/inbound-agent
+ #   container_name: jenkins-worker
+ #   depends_on:
+ #     - master
+ #   #command: jenkins/jnlp-slave -url http://master:8080 -workDir /home/jenkins/agent
+ #   networks:
+ #     - jenkins-net
+ #   environment:
+ #     - JENKINS_URL=http://master:8080
+ #     - JENKINS_SECRET=47a3e7a945c671a59b49dee4140f675e05ce18641ae1c3b48c349c231329de8b 
+ #     - JENKINS_AGENT_NAME=test
+
+networks:
+  jenkins-net:
+    driver: bridge
+
+volumes:
+  jenkins-data:
 
 
 
