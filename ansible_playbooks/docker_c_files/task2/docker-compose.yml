@@ -12,17 +12,22 @@ services:
       - mariadb_data:/var/lib/mysql
     ports:
       - "3306:3306"
+    restart: always
   
   nginx:
     image: nginx:latest
     container_name: nginx_server
     volumes:
       - ./src:/usr/share/nginx/html
+      - /var/log/nginx:/var/log/nginx
     ports:
       - "8080:80"
+    restart: always
   
   hello-world:
     image: hello-world:latest
+    stdin_open: true  # Equivalent to -i
+    tty: true         # Equivalent to -t
 
 volumes:
   mariadb_data:
