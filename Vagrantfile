@@ -46,12 +46,11 @@ Vagrant.configure("2") do |config|
 
   #Install OpenJDK 8 and 11 and set javac version to OpenJDK 8
   config.vm.provision "shell", inline: <<-SHELL
-    wget https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
-    sudo gpg --dearmor -o /usr/share/keyrings/adoptopenjdk-archive-keyring.gpg public
-    echo "deb [signed-by=/usr/share/keyrings/adoptopenjdk-archive-keyring.gpg] https://adoptopenjdk.jfrog.io/adoptopenjdk/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-  
-    sudo apt-get update
-    sudo apt-get install -y adoptopenjdk-8-hotspot  
+    wget https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u382-b05/OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    tar -xvf OpenJDK8U-jdk_x64_linux_hotspot_8u382b05.tar.gz
+    sudo mv jdk8u382-b05  /opt/
+    sudo update-alternatives --install /usr/bin/java java /opt/jdk8u382-b05/bin/java 2000
+    sudo update-alternatives --install /usr/bin/javac javac /opt/jdk8u382-b05/bin/javac 2000
   SHELL
 
   # Install OpenJDK 11 
@@ -61,8 +60,8 @@ Vagrant.configure("2") do |config|
 
   # Set javac version to OpenJDK 8
   config.vm.provision "shell", inline: <<-SHELL
-    update-alternatives --set java /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
-    update-alternatives --set javac /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/javac
+    update-alternatives --set java /opt/jdk8u382-b05/bin/java
+    update-alternatives --set javac /opt/jdk8u382-b05/bin/javac
   SHELL
 
   # Install and configure fail2ban for SSH and Nginx
