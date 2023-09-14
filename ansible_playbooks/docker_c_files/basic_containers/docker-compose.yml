@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariaDB
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: udemx-db
+      MYSQL_USER: udemx
+      MYSQL_PASSWORD: udemx_password
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d # Currently udemx user can do anything, this can be change in the sql file in initdb
+    ports:
+      - "3306:3306"
+    restart: always
+  
+  nginx:
+    image: nginx:latest
+    container_name: nginx_server
+    volumes:
+      - ./src:/usr/share/nginx/html
+      - /var/log/nginx:/var/log/nginx
+    ports:
+      - "9002:80"
+    restart: always
+  
+  hello-world:
+    image: hello-world:latest
+
+volumes:
+  mariadb_data:
