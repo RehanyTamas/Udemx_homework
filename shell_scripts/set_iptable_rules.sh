@@ -10,6 +10,7 @@ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 
 # Allow incoming HTTP traffic (port 80)
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 9000 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9001 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9002 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9003 -j ACCEPT
