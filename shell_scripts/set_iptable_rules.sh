@@ -23,6 +23,10 @@ iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 iptables -A OUTPUT -o eth0 -p tcp --dport 9418 -m state --state NEW,ESTABLISHED -j ACCEPT
 iptables -A INPUT -i eth0 -p tcp --sport 9418 -m state --state ESTABLISHED -j ACCEPT
 
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -I INPUT 2 -p icmp --icmp-type echo-request -j ACCEPT
+
+
 # Block all other incoming traffic
 iptables -A INPUT -j DROP
 
