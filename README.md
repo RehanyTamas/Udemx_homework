@@ -85,12 +85,14 @@ The second in the line is 'docker_c_start.yml', the responsibility of which, is 
         * These can be changed by using the files in the folder (docker-compose included)
 
 The third 'scripts.yml' executes the full_report.sh file, which then executes the others.These can be found in the shell_scripts folder and do the following things: 
+
     - Create a new folder in the '/opt/scripts/' folder named after the current. The ouput of the rest of the scripts can be found here (with the one exception). (source: dir_from_date.sh)
     - Create an sql dump from the MariaDb container. (source: sql_dump.sh)
     - List the three ast modified files from the '/var/log' folder in the 'mod-<DATE>.out' file. (source: mod.sh)
     - List the files that has been modified in the last 5 days from the '/var/log/*' folder in the 'last_five-<DATE>.out' file. (source: last_five.sh)
     - Write the 15 minute value from '/proc/loadvg' in the 'loadavg-<DATE>.out' file. (source: loadavg.sh)
     - In the configuration file of the GNINX container change '<title>Welcome to nginx!</title>' to 'Title:Welcome to nginx!</title>'. (source: nginx_conf.sh)
+    
 This one also creates a cronjob that executes 'full_report.sh' at 2AM everyday.
 
 The last playbook ('registry_job.yml') does the same thing as the 'hello_world' job from the jenkins server, but does it via ansible.
