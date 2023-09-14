@@ -4,22 +4,22 @@
   become: yes
 
   tasks:
-    - name: Boot docker-compose file 1
-      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/task2/docker-compose.yml up -d
+    - name: Boot nginx,mariadb and a hello world container
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/basic_containers/docker-compose.yml up -d
       args:
         executable: /bin/bash
 
-    - name: Boot docker-compose file 2
+    - name: Boot docker registry and ui
       shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/docker_registry/docker-compose.yml up -d
       args:
         executable: /bin/bash
     
-    - name: Boot docker-compose file 3
+    - name: Boot jenkins master and worker
       shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/jenkins/docker-compose.yml up -d
       args:
         executable: /bin/bash
     
-    - name: Boot docker-compose file 4
-      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/task4/docker-compose.yml up -d
+    - name: Boot Json project containers
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/json_project/docker-compose.yml up -d
       args:
         executable: /bin/bash
