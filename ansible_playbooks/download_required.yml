@@ -4,6 +4,7 @@
   become: yes
 
   tasks:
+  # Install and configure git
     - name: Update APT package cache
       apt:
         update_cache: yes
@@ -18,9 +19,10 @@
     - name: Set Git username and email globally
       shell: | 
         git config --global user.name "udemx"
-        git config --global user.email "udemx@udemx.hu" 
+        git config --global user.email "udemx@udemx.eu" 
       when: ansible_os_family == 'Debian'
 
+# Install Docker
     - name: Install Docker prerequisites
       apt:
         name:
@@ -52,6 +54,7 @@
       retries: 3
       delay: 5
 
+# Install Docker-compose
     - name: Check if Docker Compose is installed
       ignore_errors: yes
       command: docker-compose --version
