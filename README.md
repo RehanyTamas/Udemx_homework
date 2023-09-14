@@ -33,6 +33,7 @@ This project requires that your machine equipped with Virtualbox, Vagrant, Ansib
 The password of root has been set to 'Alma1234'.
 
 There are two addtional users:
+
     - username: r_tamas password: r_tamas_password
     - username: udemx password: udemx_password
 
