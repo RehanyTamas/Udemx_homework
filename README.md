@@ -56,7 +56,7 @@ The first one is named 'download_required.yml' and it will install git, docker a
 
 The second in the line is 'docker_c_start.yml', the responsibility of which, is to execute four docker-compose files. These files can be found in the subfodlers of the 'ansible_playbooks/docker_c_files/' folder.
 
-    1. 'basic_containers'
+    1. basic_containers
         * This starts an NGINX and a MariaDB container, as well as a basic hello-world container
         * The former on port 80 the latter on port 3306 (its default)
         * The NGINX container can be accesed ourside of the vm on 'http://localhost:9002/'
