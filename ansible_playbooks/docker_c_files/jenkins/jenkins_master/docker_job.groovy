@@ -1,32 +1,23 @@
-pipeline {
-    agent { node { label 'worker-1' } }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    // Clone the private GitHub repository using credentials
-                    checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[
-                        url: 'https://github.com/RehanyTamas/udemx_hazi_jenkins.git',
-                        credentialsId: 'Jenkins_udemx'
-                    ]]])
-                }
+job('hello_world') {
+    scm {
+        git {
+            remote {
+                url('https://github.com/RehanyTamas/udemx_hazi_jenkins.git')
+                credentials('Jenkins_udemx')
             }
-        }
-        
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t hello_world ."
-            }
-
-        }
-        
-        stage('Push into registry') {
-            steps {
-                sh "docker tag hello_world:latest localhost:80/hello_world:latest"
-                sh "docker push localhost:80/hello_world:latest"
-            }
-
+            branches('main')
         }
     }
+
+    steps {
+        shell('docker build -t hello_world_jenkins .')
+        shell('docker tag hello_world_jenkins:latest localhost:80/hello_world_jenkins:latest')
+        shell('docker push localhost:80/hello_world_jenkins:latest')
+        shell('docker stop hello_world_jenkins || true')
+        shell('docker run -dp 9005:80 --name hello_world_jenkins --rm localhost:80/hello_world_jenkins:latest ')
+    }
+
+
 }
+
+

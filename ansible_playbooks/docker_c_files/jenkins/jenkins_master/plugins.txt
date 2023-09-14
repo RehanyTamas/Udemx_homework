@@ -80,3 +80,4 @@ matrix-auth:latest
 pam-auth:latest
 ldap:latest
 email-ext:latest
+job-dsl:latest
