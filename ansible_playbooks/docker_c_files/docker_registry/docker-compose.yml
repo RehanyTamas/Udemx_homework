@@ -18,7 +18,6 @@ services:
       - TAGLIST_PAGE_SIZE=100
       - REGISTRY_SECURED=false
       - CATALOG_ELEMENTS_LIMIT=1000
-    container_name: registry-ui
 
   registry-server:
     image: registry:2.8.2
@@ -31,5 +30,4 @@ services:
       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
     volumes:
       - ./registry/data:/var/lib/registry
-    container_name: registry-server
 
