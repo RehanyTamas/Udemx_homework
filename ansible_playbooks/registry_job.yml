@@ -1,0 +1,26 @@
+---
+- name: Build and Push Docker Image
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Clone GitHub repository
+      shell: rm -rf ./udemx_hazi_jenkins && git clone https://RehanyTamas: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@github.com/RehanyTamas/udemx_hazi_jenkins.git ./udemx_hazi_jenkins
+
+    - name: Build Docker image
+      shell: docker build -t hello_world_ansible -f ./udemx_hazi_jenkins/Dockerfile ./udemx_hazi_jenkins/
+
+    - name: Tag Docker image
+      shell: docker tag hello_world_ansible:latest localhost:9000/hello_world_ansible:latest
+
+    - name: Push Docker image to registry
+      shell: docker push localhost:9000/hello_world_ansible:latest
+      become: yes
+
+    - name: Deploy Docker container
+      docker_container:
+        name: hello_world_container
+        image: localhost:9000/hello_world_ansible:latest
+        ports:
+          - "9004:80"
+

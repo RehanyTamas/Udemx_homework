@@ -1,0 +1,76 @@
+---
+- name: Install Docker, Docker Compose, and Git on Debian
+  hosts: all
+  become: yes
+
+  tasks:
+  # Install and configure git
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Install required packages (Git)
+      apt:
+        name: git
+        state: present
+      when: ansible_os_family == 'Debian'  
+
+    - name: Set Git username and email globally
+      shell: | 
+        git config --global user.name "udemx"
+        git config --global user.email "udemx@udemx.eu" 
+      when: ansible_os_family == 'Debian'
+
+# Install Docker
+    - name: Install Docker prerequisites
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - gnupg
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Add Docker APT repository key
+      shell: >
+        curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+      when: ansible_os_family == 'Debian'
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+      register: docker_result
+      until: "docker_result is not failed"
+      retries: 3
+      delay: 5
+
+# Install Docker-compose
+    - name: Check if Docker Compose is installed
+      ignore_errors: yes
+      command: docker-compose --version
+      register: docker_compose_version
+      changed_when: false
+
+    - name: Install Docker Compose
+      shell: >
+        curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+        -o /usr/local/bin/docker-compose && \
+        chmod +x /usr/local/bin/docker-compose && \
+        usermod -aG docker vagrant 
+      args:
+        executable: /bin/bash
+      register: docker_c_result
+      until: "docker_c_result is not failed"
+      retries: 3
+      delay: 5
+      when: docker_compose_version.failed

@@ -1,0 +1,38 @@
+version: "3"
+services:
+  master:
+    build: 
+      context: ./jenkins_master
+      dockerfile: Dockerfile
+    user: root
+    privileged: true
+    restart: always
+    ports:
+    - "9001:8080"
+    - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+    networks:
+      - jenkins-net
+  
+  jenkins-worker:
+    build: 
+      context: ./jenkins_worker
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - master
+    networks:
+      - jenkins-net
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  jenkins-net:
+    driver: bridge
+
+volumes:
+  jenkins-data:
+
+
+

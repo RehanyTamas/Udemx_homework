@@ -1,0 +1,25 @@
+---
+- name: Task 2 containers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Boot nginx,mariadb and a hello world container
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/basic_containers/docker-compose.yml up -d
+      args:
+        executable: /bin/bash
+
+    - name: Boot docker registry and ui
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/docker_registry/docker-compose.yml up -d
+      args:
+        executable: /bin/bash
+    
+    - name: Boot jenkins master and worker
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/jenkins/docker-compose.yml up -d
+      args:
+        executable: /bin/bash
+    
+    - name: Boot Json project containers
+      shell: docker-compose -f /vagrant/ansible_playbooks/docker_c_files/json_project/docker-compose.yml up -d
+      args:
+        executable: /bin/bash
