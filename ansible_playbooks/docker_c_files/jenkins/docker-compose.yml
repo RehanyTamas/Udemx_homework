@@ -1,11 +1,9 @@
 version: "3"
 services:
   master:
-    #image: jenkins/jenkins:latest
     build: 
       context: ./jenkins_master
       dockerfile: Dockerfile
-    container_name: jenkins-master
     user: root
     privileged: true
     restart: always
@@ -18,22 +16,16 @@ services:
       - jenkins-net
   
   jenkins-worker:
-    #image: jenkins/inbound-agent
     build: 
       context: ./jenkins_worker
       dockerfile: Dockerfile
-    container_name: jenkins-worker
+    restart: always
     depends_on:
       - master
-    #command: jenkins/jnlp-slave -url http://master:8080/computer/worker%2D1/jenkins-agent.jnlp -workDir /home/jenkins/agent
     networks:
       - jenkins-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    #environment:
-    # - JENKINS_URL=http://master:8080
-    #  - JENKINS_SECRET=47a3e7a945c671a59b49dee4140f675e05ce18641ae1c3b48c349c231329de8b 
-    #  - JENKINS_AGENT_NAME=test
 
 networks:
   jenkins-net:
