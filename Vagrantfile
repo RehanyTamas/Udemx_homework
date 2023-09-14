@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "forwarded_port", guest: 9000, host: 9000 #Docker registry port
   config.vm.network "forwarded_port", guest: 9001, host: 9001 #Jenkins port
-  config.vm.network "forwarded_port", guest: 9002, host: 9002 #Nginx port
+  config.vm.network "forwarded_port", guest: 80, host: 9002 #Nginx port
   config.vm.network "forwarded_port", id: "ssh", host: 2223, guest: 22 #SSH port
   config.vm.network "forwarded_port", guest: 9003, host: 9003 #Json project port
   config.vm.network "forwarded_port", guest: 9004, host: 9004 #Hello_world_ansible port

@@ -22,7 +22,7 @@ services:
       - ./src:/usr/share/nginx/html
       - /var/log/nginx:/var/log/nginx
     ports:
-      - "9002:80"
+      - "80:80"
     restart: always
   
   hello-world:
