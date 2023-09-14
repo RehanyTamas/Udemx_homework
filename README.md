@@ -25,6 +25,7 @@ This project requires that your machine equipped with Virtualbox, Vagrant, Ansib
   ```sh
   vagrant up
   ```
+4. Wait, this might take a while...
 
 ## Characteristics
 
