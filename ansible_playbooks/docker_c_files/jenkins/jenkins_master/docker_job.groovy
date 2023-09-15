@@ -2,7 +2,7 @@ job('hello_world') {
     scm {
         git {
             remote {
-                url('https://github.com/RehanyTamas/udemx_hazi_jenkins.git')
+                url('https://github.com/throw-rt/udemx_hw_support.git')
                 credentials('Jenkins_udemx')
             }
             branches('main')

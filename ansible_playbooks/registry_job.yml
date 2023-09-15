@@ -4,8 +4,13 @@
   become: yes
 
   tasks:
-    - name: Clone GitHub repository
-      shell: rm -rf ./udemx_hazi_jenkins && git clone https://RehanyTamas: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@github.com/RehanyTamas/udemx_hazi_jenkins.git ./udemx_hazi_jenkins
+    - name: clone
+      git:
+        repo: git@github.com:throw-rt/udemx_hw_support.git 
+        dest: ./udemx_hazi_jenkins
+        key_file: /home/vagrant/.ssh/udemx_hw_key
+        accept_hostkey: yes
+        force: yes
 
     - name: Build Docker image
       shell: docker build -t hello_world_ansible -f ./udemx_hazi_jenkins/Dockerfile ./udemx_hazi_jenkins/
