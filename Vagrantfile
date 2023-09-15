@@ -46,6 +46,7 @@ Vagrant.configure("2") do |config|
 
   #Set ssh key in place
   config.vm.provision "shell", inline: <<-SHELL
+   sudo chmod 600 /vagrant/keys/udemx_hw_key
    sudo bash -c 'cp /vagrant/keys/udemx_hw_key /home/vagrant/.ssh/udemx_hw_key' 
    eval "$(ssh-agent -s)"
    ssh-add /home/vagrant/.ssh/udemx_hw_key
