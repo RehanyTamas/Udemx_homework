@@ -33,7 +33,7 @@ This project requires that your machine equipped with Virtualbox, Vagrant, Ansib
 
 The password of root has been set to 'Alma1234'.
 
-There are two addtional users:
+There are two addtitional users:
 
 - username: r_tamas password: r_tamas_password
 - username: udemx password: udemx_password
@@ -64,7 +64,7 @@ The second in the line is 'docker_c_start.yml', the responsibility of which, is 
     * The NGINX container can be accesed ourside of the vm on 'http://localhost:9002/'
     * In the MariaDB container the password of the root has been set to 'root_password' 
     * For the MariDB container a user (name: udemx password:udemx_password), a database (name:udemx-db) has been created, these can be modified in the docker-compose file
-    * The priviliges of udemx user has also been configured. Currently they receive all priviligies. This can be modified in the grant_privilige.sql file which is located in the initdb folder next to the docker-compose file.
+    * The privileges of udemx user has also been configured. Currently they receive all priviligies. This can be modified in the grant_privilige.sql file which is located in the initdb folder next to the docker-compose file.
 
   2. 'docker_registry'
     * This one starts 2 containers. One is for a private docker registry and another to provide it with a ui. 
@@ -84,12 +84,12 @@ The second in the line is 'docker_c_start.yml', the responsibility of which, is 
 
 The third 'scripts.yml' executes the full_report.sh file, which then executes the others.These can be found in the shell_scripts folder and do the following things: 
 
-- Create a new folder in the '/opt/scripts/' folder named after the current. The ouput of the rest of the scripts can be found here (with the one exception). (source: dir_from_date.sh)
+- Create a new folder in the '/opt/scripts/' folder named after the current. The output of the rest of the scripts can be found here (with the one exception). (source: dir_from_date.sh)
 - Create an sql dump from the MariaDb container. (source: sql_dump.sh)
 - List the three ast modified files from the '/var/log' folder in the 'mod-<DATE>.out' file. (source: mod.sh)
 - List the files that has been modified in the last 5 days from the '/var/log/*' folder in the 'last_five-<DATE>.out' file. (source: last_five.sh)
 - Write the 15 minute value from '/proc/loadvg' in the 'loadavg-<DATE>.out' file. (source: loadavg.sh)
-- In the configuration file of the GNINX container change '<title>Welcome to nginx!</title>' to 'Title:Welcome to nginx!</title>'. (source: nginx_conf.sh)
+- In the configuration file of the NGINX container change '<title>Welcome to nginx!</title>' to 'Title:Welcome to nginx!</title>'. (source: nginx_conf.sh)
     
 This one also creates a cronjob that executes 'full_report.sh' at 2AM everyday.
 
@@ -110,4 +110,4 @@ Iptable
 Jenkins job
 - The mentioned jenkins job is having problem cloning the private repo due to authorization problems.
 - The code for it can be found in the 'docker_job.groovy' file, in the 'jenkins_master' folder.
-- If it would work it could accessef from 'http://localhost:9005/'
+- If it would work it could accessed from 'http://localhost:9005/'
