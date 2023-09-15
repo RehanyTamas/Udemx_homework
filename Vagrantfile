@@ -39,9 +39,16 @@ Vagrant.configure("2") do |config|
   SHELL
 
   # Create user "udemx"
-   config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "shell", inline: <<-SHELL
    useradd -m -s /bin/bash -d /opt/udemx udemx
    echo 'udemx:udemx_password' | chpasswd
+  SHELL
+
+  #Set ssh key in place
+  config.vm.provision "shell", inline: <<-SHELL
+   sudo bash -c 'cp /vagrant/keys/udemx_hw_key /home/vagrant/.ssh/udemx_hw_key' 
+   eval "$(ssh-agent -s)"
+   ssh-add /home/vagrant/.ssh/udemx_hw_key
   SHELL
 
   # Install OpenJDK 8

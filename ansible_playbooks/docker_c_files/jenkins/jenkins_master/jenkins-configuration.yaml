@@ -4,7 +4,7 @@ credentials:
     - credentials:
       - usernamePassword:
           id: "Jenkins_udemx"
-          password: "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"
+          password: "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"
           scope: GLOBAL
           username: "rehany.tamas14@gmail.com"
           usernameSecret: true

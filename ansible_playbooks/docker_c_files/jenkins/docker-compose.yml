@@ -15,7 +15,7 @@ services:
     networks:
       - jenkins-net
   
-  jenkins-worker:
+  worker:
     build: 
       context: ./jenkins_worker
       dockerfile: Dockerfile
