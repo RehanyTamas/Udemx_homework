@@ -40,6 +40,8 @@ There are two addtitional users:
 
 Midnight Commander, sudo, htop and gnupg are available on the vm.
 
+A private key from the 'keys' folder have been copied and configured on the virtual machines , in order to let ansible use ssh during git cloning a repository.
+
 Both OpenJDK 8 and OpenJDK 11 have been installed.
   - Debian 11 doesn't provide OpenJDK 8 packages, so it was installed from tar file via Adoptium.
   - The default java and javac are both set to former.
