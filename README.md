@@ -35,8 +35,8 @@ The password of root has been set to 'Alma1234'.
 
 There are two addtional users:
 
-    - username: r_tamas password: r_tamas_password
-    - username: udemx password: udemx_password
+- username: r_tamas password: r_tamas_password
+- username: udemx password: udemx_password
 
 Midnight Commander, sudo, htop and gnupg are available on the vm.
 
@@ -58,32 +58,29 @@ The first one is named 'download_required.yml' and it will install git, docker a
 
 The second in the line is 'docker_c_start.yml', the responsibility of which, is to execute four docker-compose files. These files can be found in the subfodlers of the 'ansible_playbooks/docker_c_files/' folder.
 
-    1. basic_containers
-        * This starts an NGINX and a MariaDB container, as well as a basic hello-world container
-        * The former on port 80 the latter on port 3306 (its default)
-        * The NGINX container can be accesed ourside of the vm on 'http://localhost:9002/'
-        * In the MariaDB container the password of the root has been set to 'root_password' 
-        * For the MariDB container a user (name: udemx password:udemx_password), a database (name:udemx-db) has been created, these can be modified in the docker-compose file
-        * The priviliges of udemx user has also been configured. Currently they receive all priviligies. This can be modified in the grant_privilige.sql file which is located in the initdb folder next to the docker-compose file.
+  1. basic_containers
+    * This starts an NGINX and a MariaDB container, as well as a basic hello-world container
+    * The former on port 80 the latter on port 3306 (its default)
+    * The NGINX container can be accesed ourside of the vm on 'http://localhost:9002/'
+    * In the MariaDB container the password of the root has been set to 'root_password' 
+    * For the MariDB container a user (name: udemx password:udemx_password), a database (name:udemx-db) has been created, these can be modified in the docker-compose file
+    * The priviliges of udemx user has also been configured. Currently they receive all priviligies. This can be modified in the grant_privilige.sql file which is located in the initdb folder next to the docker-compose file.
 
-     2. 'docker_registry'
-        * This one starts 2 containers. One is for a private docker registry and another to provide it with a ui. 
-        * The registry can be accessed from the outside on 'http://localhost:9000/.
-        * The registry can be configured in the docker-compose file
+  2. 'docker_registry'
+    * This one starts 2 containers. One is for a private docker registry and another to provide it with a ui. 
+    * The registry can be accessed from the outside on 'http://localhost:9000/.
+    * The registry can be configured in the docker-compose file
 
-    3. 'jenkins' 
-        * This starts a container for a Jenkins server, and another one as a jenkins node.
-        * The server can be accessed from the outside on 'http://localhost:9001/'.  
-        * The Jenkins master has been configured with the usage of Jenkins Configuration as Code'. It comes with plugins preinstalled, the node 'worker-1' and a job 'hello_world' created.
-        * The Jenkins worker is equipped with docker.
-        * If you build the 'hello_world' job it will clone a private github repository, build an image from the Dockerfile that is in it, upload it to the private registry (name:hello_world_jenkins) and the deploys it on the server.
-        * The behaviour of the job can be changed with the 'docker_job.groovy' file , found in the jenkins_master folder.
-        * The new container can be accessed at 'http://localhost:9005/'.
+  3. 'jenkins' 
+    * This starts a container for a Jenkins server, and another one as a jenkins node.
+    * The server can be accessed from the outside on 'http://localhost:9001/'.  
+    * The Jenkins master has been configured with the usage of Jenkins Configuration as Code'. It comes with plugins preinstalled, the node 'worker-1' and a job 'hello_world' created (The job is work-in-progress, and doesn't work yet.).
+    * The Jenkins worker is equipped with docker.
 
-    4. 'json_project' 
-        * This starts three containers (NGINX,MySQL, and one for the app) to facilitate the app that is also found in the folder.
-        * This can be accessed from the outside on 'http://localhost:9003/'.
-        * These can be changed by using the files in the folder (docker-compose included)
+  4. 'json_project' 
+    * This starts three containers (NGINX,MySQL, and one for the app) to facilitate the app that is also found in the folder.
+    * This can be accessed from the outside on 'http://localhost:9003/'.
+    * These can be changed by using the files in the folder (docker-compose included)
 
 The third 'scripts.yml' executes the full_report.sh file, which then executes the others.These can be found in the shell_scripts folder and do the following things: 
 
@@ -107,8 +104,10 @@ If it remains disconnected restart its docker container.
 
 ## TODO
 
-Configure iptable
+Iptable
+- I didn't manage to finish setting up the iptable rules , the point I reached can be seen in the 'set_iptable_rules.sh' files , in the 'shell.scripts' folder.
 
-todo mariadb setup
-iptables
-app?
+Jenkins job
+- The mentioned jenkins job is having problem cloning the private repo due to authorization problems.
+- The code for it can be found in the 'docker_job.groovy' file, in the 'jenkins_master' folder.
+- If it would work it could accessef from 'http://localhost:9005/'
